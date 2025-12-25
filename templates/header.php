@@ -54,8 +54,8 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
 }
 
 .header-logo-svg {
-    width: 36px;
-    height: 36px;
+    width: 150px;
+    height: 44px;
     transition: all 0.3s ease;
 }
 
@@ -280,6 +280,41 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
     visibility: visible;
 }
 
+/* Mobile Menu Close Button */
+.mobile-menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(30, 58, 95, 0.3);
+    border: 1px solid rgba(107, 179, 255, 0.3);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10001;
+}
+
+.mobile-menu-close svg {
+    width: 24px;
+    height: 24px;
+    color: #6bb3ff;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-close:hover {
+    background: rgba(30, 58, 95, 0.5);
+    border-color: #6bb3ff;
+    transform: rotate(90deg);
+}
+
+.mobile-menu-close:hover svg {
+    filter: drop-shadow(0 0 6px #6bb3ff);
+}
+
 .mobile-menu-nav {
     display: flex;
     flex-direction: column;
@@ -405,8 +440,8 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
     }
     
     .header-logo-svg {
-        width: 32px;
-        height: 32px;
+        width: 130px;
+        height: 38px;
     }
 }
 </style>
@@ -414,7 +449,7 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
 <header class="staydesk-header" id="staydesk-header">
     <div class="header-container">
         <a href="<?php echo esc_url(home_url('/')); ?>" class="header-logo" title="StayDesk">
-            <svg class="header-logo-svg" width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="header-logo-svg" width="150" height="44" viewBox="0 0 150 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <!-- Logo Icon - Stylized Hotel/Booking Calendar -->
                 <defs>
                     <linearGradient id="headerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -428,25 +463,25 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
                 </defs>
                 
                 <!-- Background rounded square -->
-                <rect x="2" y="2" width="32" height="32" rx="8" fill="url(#headerLogoGradient)" stroke="rgba(107,179,255,0.3)" stroke-width="1"/>
+                <rect x="2" y="6" width="36" height="36" rx="8" fill="url(#headerLogoGradient)" stroke="rgba(107,179,255,0.3)" stroke-width="1"/>
                 
                 <!-- Building/Hotel icon -->
-                <path d="M10 26V14C10 12.8954 10.8954 12 12 12H24C25.1046 12 26 12.8954 26 14V26C26 27.1046 25.1046 28 24 28H12C10.8954 28 10 27.1046 10 26Z" stroke="#6bb3ff" stroke-width="1.5" fill="none"/>
+                <path d="M12 32V18C12 16.8954 12.8954 16 14 16H28C29.1046 16 30 16.8954 30 18V32C30 33.1046 29.1046 34 28 34H14C12.8954 34 12 33.1046 12 32Z" stroke="#6bb3ff" stroke-width="1.5" fill="none"/>
                 
                 <!-- Top bar (calendar header) -->
-                <path d="M10 16H26" stroke="#6bb3ff" stroke-width="1.5"/>
+                <path d="M12 21H30" stroke="#6bb3ff" stroke-width="1.5"/>
                 
                 <!-- Calendar pins -->
-                <path d="M14 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M22 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M17 16V12" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M25 16V12" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
                 
                 <!-- Room indicators (dots) -->
-                <circle cx="14" cy="20" r="1.5" fill="#6bb3ff"/>
-                <circle cx="18" cy="20" r="1.5" fill="#8ec5ff"/>
-                <circle cx="22" cy="20" r="1.5" fill="#6bb3ff"/>
+                <circle cx="17" cy="26" r="2" fill="#6bb3ff"/>
+                <circle cx="21" cy="26" r="2" fill="#8ec5ff"/>
+                <circle cx="25" cy="26" r="2" fill="#6bb3ff"/>
                 
                 <!-- Text: StayDesk -->
-                <text x="40" y="23" font-family="'Nunito', sans-serif" font-size="14" font-weight="700" fill="#e2e8f0">Stay<tspan fill="#6bb3ff">Desk</tspan></text>
+                <text x="46" y="30" font-family="'Nunito', sans-serif" font-size="18" font-weight="700" fill="#e2e8f0">Stay<tspan fill="#6bb3ff">Desk</tspan></text>
             </svg>
         </a>
         
@@ -497,6 +532,9 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
 
 <!-- Mobile Menu -->
 <div class="mobile-menu" id="mobile-menu">
+    <button class="mobile-menu-close" id="mobile-menu-close" aria-label="Close menu">
+        <svg data-feather="x"></svg>
+    </button>
     <nav class="mobile-menu-nav">
         <a href="<?php echo esc_url(home_url('/')); ?>" class="mobile-menu-link">
             <svg data-feather="home"></svg>
@@ -551,8 +589,16 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
         const header = document.getElementById('staydesk-header');
         const hamburgerBtn = document.getElementById('hamburger-btn');
         const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuClose = document.getElementById('mobile-menu-close');
         const headerLogoutBtn = document.getElementById('header-logout-btn');
         const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
+        
+        // Function to close mobile menu
+        function closeMobileMenu() {
+            hamburgerBtn.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
         
         // Header scroll effect
         window.addEventListener('scroll', function() {
@@ -575,13 +621,14 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
                 }
             });
             
+            // Close button click handler
+            if (mobileMenuClose) {
+                mobileMenuClose.addEventListener('click', closeMobileMenu);
+            }
+            
             const mobileLinks = mobileMenu.querySelectorAll('a');
             mobileLinks.forEach(function(link) {
-                link.addEventListener('click', function() {
-                    hamburgerBtn.classList.remove('active');
-                    mobileMenu.classList.remove('active');
-                    document.body.style.overflow = '';
-                });
+                link.addEventListener('click', closeMobileMenu);
             });
         }
         

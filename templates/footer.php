@@ -289,8 +289,8 @@
         <div class="footer-grid">
             <!-- Brand Column -->
             <div class="footer-brand">
-                <div class="footer-logo-wrapper">
-                    <svg class="footer-logo-svg" width="140" height="36" viewBox="0 0 140 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <a href="<?php echo esc_url(home_url('/')); ?>" class="footer-logo-wrapper" style="text-decoration: none;">
+                    <svg class="footer-logo-svg" width="160" height="44" viewBox="0 0 160 44" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <!-- Logo Icon -->
                         <defs>
                             <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -300,27 +300,27 @@
                         </defs>
                         
                         <!-- Background rounded square -->
-                        <rect x="2" y="2" width="32" height="32" rx="8" fill="url(#footerLogoGradient)" stroke="rgba(107,179,255,0.3)" stroke-width="1"/>
+                        <rect x="2" y="4" width="38" height="38" rx="8" fill="url(#footerLogoGradient)" stroke="rgba(107,179,255,0.3)" stroke-width="1"/>
                         
                         <!-- Building/Hotel icon -->
-                        <path d="M10 26V14C10 12.8954 10.8954 12 12 12H24C25.1046 12 26 12.8954 26 14V26C26 27.1046 25.1046 28 24 28H12C10.8954 28 10 27.1046 10 26Z" stroke="#6bb3ff" stroke-width="1.5" fill="none"/>
+                        <path d="M12 32V18C12 16.8954 12.8954 16 14 16H28C29.1046 16 30 16.8954 30 18V32C30 33.1046 29.1046 34 28 34H14C12.8954 34 12 33.1046 12 32Z" stroke="#6bb3ff" stroke-width="1.5" fill="none"/>
                         
                         <!-- Top bar -->
-                        <path d="M10 16H26" stroke="#6bb3ff" stroke-width="1.5"/>
+                        <path d="M12 21H30" stroke="#6bb3ff" stroke-width="1.5"/>
                         
                         <!-- Calendar pins -->
-                        <path d="M14 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M22 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M17 16V11" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M25 16V11" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
                         
                         <!-- Room indicators -->
-                        <circle cx="14" cy="20" r="1.5" fill="#6bb3ff"/>
-                        <circle cx="18" cy="20" r="1.5" fill="#8ec5ff"/>
-                        <circle cx="22" cy="20" r="1.5" fill="#6bb3ff"/>
+                        <circle cx="17" cy="26" r="2" fill="#6bb3ff"/>
+                        <circle cx="21" cy="26" r="2" fill="#8ec5ff"/>
+                        <circle cx="25" cy="26" r="2" fill="#6bb3ff"/>
                         
                         <!-- Text -->
-                        <text x="42" y="23" font-family="'Nunito', sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Stay<tspan fill="#6bb3ff">Desk</tspan></text>
+                        <text x="48" y="30" font-family="'Nunito', sans-serif" font-size="18" font-weight="700" fill="#e2e8f0">Stay<tspan fill="#6bb3ff">Desk</tspan></text>
                     </svg>
-                </div>
+                </a>
                 <p class="footer-description">
                     The ultimate hotel management platform by BendlessTech. Empowering hotels across Nigeria with smart booking solutions.
                 </p>

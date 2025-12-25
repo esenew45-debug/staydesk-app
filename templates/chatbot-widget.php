@@ -36,11 +36,20 @@ $is_owner = $hotel && is_user_logged_in();
 <!-- AI Chatbot Widget with Settings -->
 <div class="staydesk-chatbot-widget" id="staydesk-chatbot-widget">
     <button class="chatbot-button" id="chatbot-toggle" title="Chat with AI Assistant">
-        <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/>
-            <circle cx="9" cy="10" r="1.5"/>
-            <circle cx="15" cy="10" r="1.5"/>
-            <path d="M12 14.5c-1.38 0-2.5-.56-3.18-1.5h6.36c-.68.94-1.8 1.5-3.18 1.5z"/>
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Robot head outline -->
+            <rect x="5" y="6" width="14" height="12" rx="2"/>
+            <!-- Antenna -->
+            <line x1="12" y1="6" x2="12" y2="3"/>
+            <circle cx="12" cy="2" r="1"/>
+            <!-- Eyes -->
+            <circle cx="9" cy="11" r="1.5" fill="currentColor"/>
+            <circle cx="15" cy="11" r="1.5" fill="currentColor"/>
+            <!-- Mouth -->
+            <path d="M9 15h6"/>
+            <!-- Ears/Antennas -->
+            <line x1="5" y1="10" x2="3" y2="10"/>
+            <line x1="19" y1="10" x2="21" y2="10"/>
         </svg>
     </button>
     
@@ -205,17 +214,17 @@ $is_owner = $hotel && is_user_logged_in();
         width: 56px;
         height: 56px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #FFD700 0%, #4FC3F7 50%, #64B5F6 100%);
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 50%, #6bb3ff 100%);
         background-size: 200% 200%;
         border: none;
         cursor: pointer;
-        box-shadow: 0 4px 16px rgba(255, 215, 0, 0.4);
+        box-shadow: 0 4px 20px rgba(107, 179, 255, 0.4);
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        animation: gradientPulse 3s ease infinite;
+        animation: sapphireGlow 3s ease infinite;
         position: relative;
         overflow: hidden;
     }
@@ -227,14 +236,35 @@ $is_owner = $hotel && is_user_logged_in();
         left: -50%;
         width: 200%;
         height: 200%;
-        background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        background: linear-gradient(45deg, transparent, rgba(107, 179, 255, 0.4), transparent);
         transform: rotate(45deg);
         animation: shimmer 3s infinite;
     }
     
-    @keyframes gradientPulse {
-        0%, 100% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
+    /* Sparkle effects */
+    .chatbot-button::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+        animation: sparkle 2s ease-in-out infinite;
+    }
+    
+    @keyframes sapphireGlow {
+        0%, 100% { 
+            background-position: 0% 50%; 
+            box-shadow: 0 4px 20px rgba(107, 179, 255, 0.4);
+        }
+        50% { 
+            background-position: 100% 50%; 
+            box-shadow: 0 4px 30px rgba(107, 179, 255, 0.6), 0 0 40px rgba(107, 179, 255, 0.3);
+        }
+    }
+    
+    @keyframes sparkle {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.1); }
     }
     
     @keyframes shimmer {
@@ -244,7 +274,7 @@ $is_owner = $hotel && is_user_logged_in();
     
     .chatbot-button:hover {
         transform: scale(1.1) rotate(5deg);
-        box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        box-shadow: 0 6px 30px rgba(107, 179, 255, 0.7), 0 0 50px rgba(107, 179, 255, 0.4);
     }
     
     .chatbot-window {
@@ -273,12 +303,19 @@ $is_owner = $hotel && is_user_logged_in();
     }
     
     .chat-header {
-        background: linear-gradient(135deg, #FFD700 0%, #4FC3F7 100%);
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 50%, #6bb3ff 100%);
+        background-size: 200% 200%;
+        animation: sapphireHeaderGlow 4s ease infinite;
         color: white;
         padding: 12px 15px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+    }
+    
+    @keyframes sapphireHeaderGlow {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
     }
     
     .settings-header {
@@ -363,7 +400,7 @@ $is_owner = $hotel && is_user_logged_in();
     }
     
     .user-message {
-        background: linear-gradient(135deg, #4FC3F7 0%, #0066CC 100%);
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
         color: white;
         padding: 10px 12px;
         border-radius: 12px 12px 0 12px;
@@ -404,7 +441,7 @@ $is_owner = $hotel && is_user_logged_in();
         width: 38px;
         height: 38px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #4FC3F7 0%, #0066CC 100%);
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 100%);
         border: none;
         color: white;
         cursor: pointer;
@@ -416,7 +453,7 @@ $is_owner = $hotel && is_user_logged_in();
     
     .send-btn:hover {
         transform: scale(1.05);
-        box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+        box-shadow: 0 4px 12px rgba(107, 179, 255, 0.4);
     }
     
     .send-btn:disabled {
@@ -656,7 +693,7 @@ $is_owner = $hotel && is_user_logged_in();
         box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
     }
     
-    /* WhatsApp Widget */
+    /* WhatsApp Widget - Sparkling Sapphire Blue */
     .staydesk-whatsapp-widget {
         position: fixed;
         bottom: 20px;
@@ -668,21 +705,72 @@ $is_owner = $hotel && is_user_logged_in();
         width: 50px;
         height: 50px;
         border-radius: 50%;
-        background: #25D366;
+        background: linear-gradient(135deg, #1e3a5f 0%, #2d5a8a 50%, #6bb3ff 100%);
+        background-size: 200% 200%;
         border: none;
         cursor: pointer;
-        box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        box-shadow: 0 4px 20px rgba(107, 179, 255, 0.4);
         transition: all 0.3s ease;
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
         text-decoration: none;
+        animation: whatsappSapphireGlow 3s ease infinite;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .whatsapp-button::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: linear-gradient(45deg, transparent, rgba(107, 179, 255, 0.4), transparent);
+        transform: rotate(45deg);
+        animation: whatsappShimmer 3s infinite;
+    }
+    
+    .whatsapp-button::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.3) 0%, transparent 50%);
+        animation: whatsappSparkle 2s ease-in-out infinite;
+    }
+    
+    @keyframes whatsappSapphireGlow {
+        0%, 100% { 
+            background-position: 0% 50%; 
+            box-shadow: 0 4px 20px rgba(107, 179, 255, 0.4);
+        }
+        50% { 
+            background-position: 100% 50%; 
+            box-shadow: 0 4px 30px rgba(107, 179, 255, 0.6), 0 0 40px rgba(107, 179, 255, 0.3);
+        }
+    }
+    
+    @keyframes whatsappShimmer {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+    
+    @keyframes whatsappSparkle {
+        0%, 100% { opacity: 0.5; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.1); }
     }
     
     .whatsapp-button:hover {
         transform: scale(1.1);
-        box-shadow: 0 6px 16px rgba(37, 211, 102, 0.5);
+        box-shadow: 0 6px 30px rgba(107, 179, 255, 0.7), 0 0 50px rgba(107, 179, 255, 0.4);
+    }
+    
+    .whatsapp-button svg {
+        position: relative;
+        z-index: 1;
     }
     
     @keyframes slideUp {
