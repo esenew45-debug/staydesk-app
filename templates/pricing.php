@@ -255,7 +255,7 @@
                     <li><svg data-feather="check"></svg> Unlimited bookings</li>
                     <li><svg data-feather="check"></svg> Room management</li>
                     <li><svg data-feather="check"></svg> Payment integration</li>
-                    <li><svg data-feather="check"></svg> AI Chatbot (bilingual)</li>
+                    <li><svg data-feather="check"></svg> Customised Chatbot (bilingual)</li>
                     <li><svg data-feather="check"></svg> Email notifications</li>
                     <li><svg data-feather="check"></svg> WhatsApp integration</li>
                     <li><svg data-feather="check"></svg> Analytics dashboard</li>
@@ -314,10 +314,12 @@
                 var plan = $(this).data('plan');
                 var $btn = $(this);
                 
-                // Check if user is logged in
+                // Check if user is logged in - redirect to signup with plan info
                 <?php if (!is_user_logged_in()): ?>
-                    alert('Please login to subscribe.');
-                    window.location.href = '<?php echo home_url('/staydesk-login'); ?>';
+                    // Store the selected plan in localStorage for use after signup
+                    localStorage.setItem('staydesk_selected_plan', plan);
+                    // Redirect to signup page
+                    window.location.href = '<?php echo home_url('/staydesk-signup'); ?>?redirect=subscription&plan=' + plan;
                     return;
                 <?php endif; ?>
                 

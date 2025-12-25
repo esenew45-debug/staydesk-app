@@ -58,7 +58,25 @@ $homepage_is_logged_in = is_user_logged_in();
         /* Hide header spacer on homepage since hero handles its own spacing */
         .header-spacer { display: none; }
         
-        /* All elements visible by default - no scroll animations */
+        /* ============================================
+           SCROLL ANIMATION CLASSES
+           ============================================ */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Staggered delays for child elements */
+        .scroll-animate-delay-1 { transition-delay: 0.1s; }
+        .scroll-animate-delay-2 { transition-delay: 0.2s; }
+        .scroll-animate-delay-3 { transition-delay: 0.3s; }
+        .scroll-animate-delay-4 { transition-delay: 0.4s; }
         
         /* Icon animations */
         .icon-animate {
@@ -235,7 +253,19 @@ $homepage_is_logged_in = is_user_logged_in();
         
         .stat-item {
             text-align: center;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease-out;
         }
+        
+        .stat-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .stat-item:nth-child(1) { transition-delay: 0.1s; }
+        .stat-item:nth-child(2) { transition-delay: 0.2s; }
+        .stat-item:nth-child(3) { transition-delay: 0.3s; }
         
         .stat-value {
             font-family: var(--font-display);
@@ -245,6 +275,18 @@ $homepage_is_logged_in = is_user_logged_in();
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            background-size: 200% auto;
+            animation: colorShift 3s ease-in-out infinite;
+        }
+        
+        @keyframes colorShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        /* Counter animation glow effect */
+        .stat-value.counting {
+            text-shadow: 0 0 20px rgba(107, 179, 255, 0.5);
         }
         
         .stat-label {
@@ -724,8 +766,8 @@ $homepage_is_logged_in = is_user_logged_in();
                     <div class="why-icon">
                         <svg data-feather="message-circle"></svg>
                     </div>
-                    <h3>Bilingual AI Chatbot</h3>
-                    <p>Our AI assistant speaks both English and Pidgin, connecting naturally with your Nigerian guests 24/7.</p>
+                    <h3>Customised Chatbot</h3>
+                    <p>Our chatbot speaks both English and Pidgin, connecting naturally with your Nigerian guests 24/7.</p>
                 </div>
                 
                 <div class="why-card">
@@ -845,17 +887,20 @@ $homepage_is_logged_in = is_user_logged_in();
                     MOST POPULAR
                 </div>
                 <div class="pricing-price">
-                    <span class="amount">₦15,000</span>
+                    <span class="amount">₦49,900</span>
                     <span class="period">/month</span>
                 </div>
                 <ul class="pricing-features">
                     <li><svg data-feather="check"></svg> Unlimited room listings</li>
                     <li><svg data-feather="check"></svg> Unlimited bookings</li>
-                    <li><svg data-feather="check"></svg> AI Chatbot (English & Pidgin)</li>
+                    <li><svg data-feather="check"></svg> Customised Chatbot (English & Pidgin)</li>
                     <li><svg data-feather="check"></svg> Paystack payment integration</li>
                     <li><svg data-feather="check"></svg> WhatsApp notifications</li>
                     <li><svg data-feather="check"></svg> Analytics dashboard</li>
                     <li><svg data-feather="check"></svg> Priority support</li>
+                    <li><svg data-feather="check"></svg> Real-time booking updates</li>
+                    <li><svg data-feather="check"></svg> Guest management system</li>
+                    <li><svg data-feather="check"></svg> Revenue tracking & reports</li>
                 </ul>
                 <a href="<?php echo esc_url(home_url('/staydesk-signup')); ?>" class="btn btn-primary" style="width: 100%; justify-content: center;">
                     Get Started
@@ -871,8 +916,8 @@ $homepage_is_logged_in = is_user_logged_in();
             <h2>Ready to Transform Your Hotel?</h2>
             <p>Join hundreds of Nigerian hotels already using StayDesk to streamline their operations and delight their guests.</p>
             <div class="hero-buttons">
-                <a href="<?php echo esc_url(home_url('/staydesk-signup')); ?>" class="btn btn-primary">
-                    Start Your Free Trial
+                <a href="<?php echo esc_url(home_url('/staydesk-pricing')); ?>" class="btn btn-primary">
+                    Subscribe
                     <svg data-feather="arrow-right"></svg>
                 </a>
                 <a href="https://wa.me/2347120018023" class="btn btn-secondary" target="_blank">
@@ -900,6 +945,126 @@ $homepage_is_logged_in = is_user_logged_in();
                     target.scrollIntoView({ behavior: 'smooth' });
                 }
             });
+        });
+        
+        // ============================================
+        // ANIMATED COUNTER ON SCROLL
+        // ============================================
+        function animateCounter(element, target, suffix = '') {
+            const duration = 2000;
+            const startTime = performance.now();
+            const startValue = 0;
+            
+            element.classList.add('counting');
+            
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                // Easing function for smooth animation
+                const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                const currentValue = Math.floor(startValue + (target - startValue) * easeOutQuart);
+                
+                element.textContent = currentValue.toLocaleString() + suffix;
+                
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    element.textContent = target.toLocaleString() + suffix;
+                    element.classList.remove('counting');
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+        
+        // Intersection Observer for stats section
+        const statsSection = document.querySelector('.hero-stats');
+        let statsAnimated = false;
+        
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !statsAnimated) {
+                    statsAnimated = true;
+                    
+                    // Make stat items visible
+                    document.querySelectorAll('.stat-item').forEach(item => {
+                        item.classList.add('visible');
+                    });
+                    
+                    // Animate each counter
+                    setTimeout(() => {
+                        const statValues = document.querySelectorAll('.stat-value');
+                        statValues.forEach((stat, index) => {
+                            const text = stat.textContent.trim();
+                            let target, suffix;
+                            
+                            if (text.includes('500')) {
+                                target = 500;
+                                suffix = '+';
+                            } else if (text.includes('50K')) {
+                                target = 50;
+                                suffix = 'K+';
+                            } else if (text.includes('99.9')) {
+                                target = 99.9;
+                                suffix = '%';
+                            }
+                            
+                            setTimeout(() => {
+                                if (suffix === 'K+') {
+                                    animateCounter(stat, target, suffix);
+                                } else if (suffix === '%') {
+                                    // Special handling for percentage
+                                    const duration = 2000;
+                                    const startTime = performance.now();
+                                    stat.classList.add('counting');
+                                    
+                                    function updatePercent(currentTime) {
+                                        const elapsed = currentTime - startTime;
+                                        const progress = Math.min(elapsed / duration, 1);
+                                        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+                                        const currentValue = (99.9 * easeOutQuart).toFixed(1);
+                                        stat.textContent = currentValue + '%';
+                                        
+                                        if (progress < 1) {
+                                            requestAnimationFrame(updatePercent);
+                                        } else {
+                                            stat.textContent = '99.9%';
+                                            stat.classList.remove('counting');
+                                        }
+                                    }
+                                    requestAnimationFrame(updatePercent);
+                                } else {
+                                    animateCounter(stat, target, suffix);
+                                }
+                            }, index * 200);
+                        });
+                    }, 300);
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        if (statsSection) {
+            statsObserver.observe(statsSection);
+        }
+        
+        // Scroll animation for other sections
+        const scrollElements = document.querySelectorAll('.why-card, .feature-card, .pricing-card');
+        
+        const scrollObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        scrollElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            scrollObserver.observe(el);
         });
     </script>
 </body>

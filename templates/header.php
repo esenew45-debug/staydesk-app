@@ -22,11 +22,12 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
     left: 0;
     right: 0;
     z-index: 9999;
-    background: rgba(15, 20, 25, 0.85);
+    background: rgba(15, 20, 25, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid rgba(107, 179, 255, 0.1);
+    border-bottom: 1px solid rgba(107, 179, 255, 0.15);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
 }
 
 .staydesk-header.scrolled {
@@ -413,21 +414,39 @@ $current_user = $is_logged_in ? wp_get_current_user() : null;
 <header class="staydesk-header" id="staydesk-header">
     <div class="header-container">
         <a href="<?php echo esc_url(home_url('/')); ?>" class="header-logo" title="StayDesk">
-            <svg class="header-logo-svg" width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="2" y="2" width="32" height="32" rx="8" fill="url(#logoGradient)" stroke="rgba(107,179,255,0.3)" stroke-width="1"/>
-                <path d="M10 24V14C10 12.8954 10.8954 12 12 12H24C25.1046 12 26 12.8954 26 14V24C26 25.1046 25.1046 26 24 26H12C10.8954 26 10 25.1046 10 24Z" stroke="#6bb3ff" stroke-width="1.5" fill="none"/>
-                <path d="M10 16H26" stroke="#6bb3ff" stroke-width="1.5"/>
-                <path d="M14 12V10" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M22 12V10" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
-                <circle cx="14" cy="20" r="1.5" fill="#6bb3ff"/>
-                <circle cx="18" cy="20" r="1.5" fill="#8ec5ff"/>
-                <circle cx="22" cy="20" r="1.5" fill="#6bb3ff"/>
+            <svg class="header-logo-svg" width="120" height="36" viewBox="0 0 120 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Logo Icon - Stylized Hotel/Booking Calendar -->
                 <defs>
-                    <linearGradient id="logoGradient" x1="2" y1="2" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+                    <linearGradient id="headerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stop-color="#1e3a5f"/>
                         <stop offset="100%" stop-color="#2d5a8a"/>
                     </linearGradient>
+                    <linearGradient id="headerAccentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#6bb3ff"/>
+                        <stop offset="100%" stop-color="#8ec5ff"/>
+                    </linearGradient>
                 </defs>
+                
+                <!-- Background rounded square -->
+                <rect x="2" y="2" width="32" height="32" rx="8" fill="url(#headerLogoGradient)" stroke="rgba(107,179,255,0.3)" stroke-width="1"/>
+                
+                <!-- Building/Hotel icon -->
+                <path d="M10 26V14C10 12.8954 10.8954 12 12 12H24C25.1046 12 26 12.8954 26 14V26C26 27.1046 25.1046 28 24 28H12C10.8954 28 10 27.1046 10 26Z" stroke="#6bb3ff" stroke-width="1.5" fill="none"/>
+                
+                <!-- Top bar (calendar header) -->
+                <path d="M10 16H26" stroke="#6bb3ff" stroke-width="1.5"/>
+                
+                <!-- Calendar pins -->
+                <path d="M14 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M22 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                
+                <!-- Room indicators (dots) -->
+                <circle cx="14" cy="20" r="1.5" fill="#6bb3ff"/>
+                <circle cx="18" cy="20" r="1.5" fill="#8ec5ff"/>
+                <circle cx="22" cy="20" r="1.5" fill="#6bb3ff"/>
+                
+                <!-- Text: StayDesk -->
+                <text x="40" y="23" font-family="'Nunito', sans-serif" font-size="14" font-weight="700" fill="#e2e8f0">Stay<tspan fill="#6bb3ff">Desk</tspan></text>
             </svg>
         </a>
         

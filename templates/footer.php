@@ -290,10 +290,36 @@
             <!-- Brand Column -->
             <div class="footer-brand">
                 <div class="footer-logo-wrapper">
-                    <div class="footer-logo-icon">
-                        <svg data-feather="home"></svg>
-                    </div>
-                    <div class="footer-logo">StayDesk</div>
+                    <svg class="footer-logo-svg" width="140" height="36" viewBox="0 0 140 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Logo Icon -->
+                        <defs>
+                            <linearGradient id="footerLogoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#1e3a5f"/>
+                                <stop offset="100%" stop-color="#2d5a8a"/>
+                            </linearGradient>
+                        </defs>
+                        
+                        <!-- Background rounded square -->
+                        <rect x="2" y="2" width="32" height="32" rx="8" fill="url(#footerLogoGradient)" stroke="rgba(107,179,255,0.3)" stroke-width="1"/>
+                        
+                        <!-- Building/Hotel icon -->
+                        <path d="M10 26V14C10 12.8954 10.8954 12 12 12H24C25.1046 12 26 12.8954 26 14V26C26 27.1046 25.1046 28 24 28H12C10.8954 28 10 27.1046 10 26Z" stroke="#6bb3ff" stroke-width="1.5" fill="none"/>
+                        
+                        <!-- Top bar -->
+                        <path d="M10 16H26" stroke="#6bb3ff" stroke-width="1.5"/>
+                        
+                        <!-- Calendar pins -->
+                        <path d="M14 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M22 12V9" stroke="#6bb3ff" stroke-width="1.5" stroke-linecap="round"/>
+                        
+                        <!-- Room indicators -->
+                        <circle cx="14" cy="20" r="1.5" fill="#6bb3ff"/>
+                        <circle cx="18" cy="20" r="1.5" fill="#8ec5ff"/>
+                        <circle cx="22" cy="20" r="1.5" fill="#6bb3ff"/>
+                        
+                        <!-- Text -->
+                        <text x="42" y="23" font-family="'Nunito', sans-serif" font-size="16" font-weight="700" fill="#e2e8f0">Stay<tspan fill="#6bb3ff">Desk</tspan></text>
+                    </svg>
                 </div>
                 <p class="footer-description">
                     The ultimate hotel management platform by BendlessTech. Empowering hotels across Nigeria with smart booking solutions.

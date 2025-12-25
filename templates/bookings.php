@@ -444,6 +444,44 @@ $bookings = array_map(function($booking) {
                 overflow-x: auto;
             }
         }
+        
+        /* Toast notifications for real-time updates */
+        .booking-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            z-index: 10001;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .booking-toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .booking-toast.success {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .booking-toast.error {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
     </style>
 </head>
 <body>
@@ -680,12 +718,14 @@ $bookings = array_map(function($booking) {
             
             // Get nonce from hidden field
             var nonceValue = jQuery('#staydesk_booking_nonce').val();
-            
-            console.log('Updating booking status:', {
-                bookingId: bookingId,
-                newStatus: newStatus,
-                nonceValue: nonceValue
+            var $row = jQuery('tr.booking-row').filter(function() {
+                return jQuery(this).find('button[onclick*="' + bookingId + '"]').length > 0;
             });
+            
+            // Show loading state
+            var $actionButtons = $row.find('td:last-child');
+            var originalContent = $actionButtons.html();
+            $actionButtons.html('<span style="color: var(--accent);">Updating...</span>');
             
             jQuery.ajax({
                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
@@ -697,20 +737,68 @@ $bookings = array_map(function($booking) {
                     status: newStatus
                 },
                 success: function(response) {
-                    console.log('Response from server:', response);
                     if (response.success) {
-                        alert('✅ Booking status updated to ' + newStatus + '! The page will refresh.');
-                        location.reload();
+                        // Update the UI in real-time
+                        var $statusBadge = $row.find('.status-badge').first();
+                        $statusBadge.removeClass('status-pending status-confirmed status-completed status-cancelled')
+                                    .addClass('status-' + newStatus)
+                                    .text(newStatus.charAt(0).toUpperCase() + newStatus.slice(1));
+                        
+                        $row.attr('data-status', newStatus);
+                        
+                        // Update action buttons based on new status
+                        var newButtons = '';
+                        if (newStatus === 'confirmed') {
+                            newButtons = '<button class="btn btn-primary btn-sm" onclick="updateStatus(' + bookingId + ', \'completed\')">Complete</button> ';
+                        }
+                        newButtons += '<button class="btn btn-secondary btn-sm" onclick="editBooking(' + bookingId + ')">Edit</button> ';
+                        newButtons += '<button class="btn btn-danger btn-sm" onclick="deleteBooking(' + bookingId + ')">Delete</button>';
+                        $actionButtons.html(newButtons);
+                        
+                        // Update stats in real-time
+                        updateBookingStats();
+                        
+                        // Show success toast
+                        showToast('✅ Booking status updated to ' + newStatus + '!', 'success');
+                        
+                        // Re-initialize feather icons
+                        if (typeof feather !== 'undefined') {
+                            feather.replace();
+                        }
                     } else {
-                        alert('❌ Error: ' + (response.data ? response.data.message : 'Unknown error'));
-                        console.error('Error response:', response);
+                        $actionButtons.html(originalContent);
+                        showToast('❌ Error: ' + (response.data ? response.data.message : 'Unknown error'), 'error');
                     }
                 },
                 error: function(xhr, status, error) {
-                    console.error('AJAX error:', {xhr: xhr, status: status, error: error});
-                    alert('❌ An error occurred: ' + error + '. Please check the console and try again.');
+                    $actionButtons.html(originalContent);
+                    showToast('❌ An error occurred: ' + error, 'error');
                 }
             });
+        }
+        
+        // Real-time stats update function
+        function updateBookingStats() {
+            var pending = jQuery('.booking-row[data-status="pending"]').length;
+            var confirmed = jQuery('.booking-row[data-status="confirmed"]').length;
+            var completed = jQuery('.booking-row[data-status="completed"]').length;
+            var total = jQuery('.booking-row').length;
+            
+            jQuery('.stat-card').eq(0).find('.value').text(total);
+            jQuery('.stat-card').eq(1).find('.value').text(pending);
+            jQuery('.stat-card').eq(2).find('.value').text(confirmed);
+            jQuery('.stat-card').eq(3).find('.value').text(completed);
+        }
+        
+        // Toast notification function
+        function showToast(message, type) {
+            var toast = jQuery('<div class="booking-toast ' + type + '">' + message + '</div>');
+            jQuery('body').append(toast);
+            setTimeout(function() { toast.addClass('show'); }, 10);
+            setTimeout(function() { 
+                toast.removeClass('show');
+                setTimeout(function() { toast.remove(); }, 300);
+            }, 3000);
         }
         
         function editBooking(bookingId) {
@@ -787,23 +875,73 @@ $bookings = array_map(function($booking) {
                 data: formData,
                 success: function(response) {
                     if (response.success) {
-                        alert('✅ Booking created successfully! The page will refresh to show the new booking.');
                         closeAddModal();
-                        location.reload();
+                        showToast('✅ Booking created successfully!', 'success');
+                        
+                        // Add new booking row to table in real-time
+                        if (response.data && response.data.booking) {
+                            var booking = response.data.booking;
+                            var newRow = createBookingRow(booking);
+                            
+                            // Check if empty state exists and remove it
+                            if (jQuery('.empty-state').length > 0) {
+                                jQuery('.bookings-table').html('<table><thead><tr><th>Reference</th><th>Guest</th><th>Room</th><th>Check-in</th><th>Check-out</th><th>Amount</th><th>Status</th><th>Payment</th><th>Actions</th></tr></thead><tbody></tbody></table>');
+                            }
+                            
+                            jQuery('.bookings-table tbody').prepend(newRow);
+                            updateBookingStats();
+                            
+                            if (typeof feather !== 'undefined') {
+                                feather.replace();
+                            }
+                        } else {
+                            // Fallback: reload if no booking data returned
+                            location.reload();
+                        }
                     } else {
                         submitBtn.prop('disabled', false).html(originalText);
-                        alert('❌ Error: ' + (response.data.message || 'Unable to create booking'));
+                        showToast('❌ Error: ' + (response.data.message || 'Unable to create booking'), 'error');
                     }
                 },
                 error: function() {
                     submitBtn.prop('disabled', false).html(originalText);
-                    alert('❌ An error occurred while creating the booking. Please try again.');
+                    showToast('❌ An error occurred while creating the booking.', 'error');
                 }
             });
         });
         
+        // Helper function to create a booking row HTML
+        function createBookingRow(booking) {
+            var checkInDate = new Date(booking.check_in_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            var checkOutDate = new Date(booking.check_out_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            var amount = parseFloat(booking.total_amount || 0).toLocaleString('en-US', { minimumFractionDigits: 2 });
+            
+            return '<tr class="booking-row" data-status="' + booking.booking_status + '" style="animation: fadeIn 0.3s ease">' +
+                '<td><strong>' + (booking.booking_reference || 'N/A') + '</strong></td>' +
+                '<td>' + booking.guest_name + '<br><small style="color: var(--text-secondary);">' + booking.guest_email + '</small></td>' +
+                '<td>' + (booking.room_name || 'N/A') + '<br><small style="color: var(--text-secondary);">' + (booking.room_type || '') + '</small></td>' +
+                '<td>' + checkInDate + '</td>' +
+                '<td>' + checkOutDate + '</td>' +
+                '<td><strong>₦' + amount + '</strong></td>' +
+                '<td><span class="status-badge status-' + booking.booking_status + '">' + booking.booking_status.charAt(0).toUpperCase() + booking.booking_status.slice(1) + '</span></td>' +
+                '<td><span class="status-badge status-' + booking.payment_status + '">' + booking.payment_status.charAt(0).toUpperCase() + booking.payment_status.slice(1) + '</span></td>' +
+                '<td>' +
+                    '<button class="btn btn-primary btn-sm" onclick="updateStatus(' + booking.id + ', \'confirmed\')">Confirm</button> ' +
+                    '<button class="btn btn-secondary btn-sm" onclick="editBooking(' + booking.id + ')">Edit</button> ' +
+                    '<button class="btn btn-danger btn-sm" onclick="deleteBooking(' + booking.id + ')">Delete</button>' +
+                '</td>' +
+            '</tr>';
+        }
+        
         function deleteBooking(bookingId) {
             if (!confirm('Are you sure you want to delete this booking? This action cannot be undone.')) return;
+            
+            var $row = jQuery('tr.booking-row').filter(function() {
+                return jQuery(this).find('button[onclick*="deleteBooking(' + bookingId + ')"]').length > 0;
+            });
+            
+            // Add deletion animation
+            $row.css({ opacity: 0.5, transition: 'opacity 0.3s' });
             
             jQuery.ajax({
                 url: '<?php echo admin_url('admin-ajax.php'); ?>',
@@ -815,14 +953,33 @@ $bookings = array_map(function($booking) {
                 },
                 success: function(response) {
                     if (response.success) {
-                        alert('Booking deleted successfully!');
-                        location.reload();
+                        // Remove row with animation
+                        $row.css({ 
+                            transform: 'translateX(-100%)', 
+                            transition: 'all 0.3s ease',
+                            opacity: 0
+                        });
+                        setTimeout(function() {
+                            $row.remove();
+                            updateBookingStats();
+                            
+                            // Check if table is now empty
+                            if (jQuery('.booking-row').length === 0) {
+                                jQuery('.bookings-table table').replaceWith(
+                                    '<div class="empty-state"><h3>No Bookings Yet</h3><p>Bookings will appear here once guests make reservations</p></div>'
+                                );
+                            }
+                        }, 300);
+                        
+                        showToast('✅ Booking deleted successfully!', 'success');
                     } else {
-                        alert('Error deleting booking');
+                        $row.css({ opacity: 1 });
+                        showToast('❌ Error deleting booking', 'error');
                     }
                 },
                 error: function() {
-                    alert('An error occurred');
+                    $row.css({ opacity: 1 });
+                    showToast('❌ An error occurred', 'error');
                 }
             });
         }
