@@ -6,6 +6,35 @@
 (function($) {
     'use strict';
 
+    // Prefetch links for faster page transitions
+    function prefetchLinks() {
+        if ('IntersectionObserver' in window && 'requestIdleCallback' in window) {
+            var linkObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var link = entry.target;
+                        var href = link.getAttribute('href');
+                        
+                        if (href && href.startsWith('/') && !link.dataset.prefetched) {
+                            requestIdleCallback(function() {
+                                var prefetch = document.createElement('link');
+                                prefetch.rel = 'prefetch';
+                                prefetch.href = href;
+                                document.head.appendChild(prefetch);
+                                link.dataset.prefetched = 'true';
+                            });
+                        }
+                        linkObserver.unobserve(link);
+                    }
+                });
+            }, { rootMargin: '50px' });
+            
+            document.querySelectorAll('a[href^="/"]').forEach(function(link) {
+                linkObserver.observe(link);
+            });
+        }
+    }
+
     $(document).ready(function() {
         
         // Create and append scroll progress bar
@@ -244,6 +273,45 @@
         if (localStorage.getItem('darkMode') === 'true') {
             $('body').addClass('dark-mode');
         }
+        
+        // Initialize prefetching for faster navigation
+        prefetchLinks();
+        
+        // Add page transition class for smoother navigation
+        $('a:not([target="_blank"]):not([href^="#"]):not([href^="mailto:"]):not([href^="tel:"]):not([href^="javascript:"])').on('click', function(e) {
+            var href = $(this).attr('href');
+            if (href && !href.startsWith('#') && !$(this).hasClass('no-transition')) {
+                e.preventDefault();
+                $('body').addClass('page-transitioning');
+                setTimeout(function() {
+                    window.location.href = href;
+                }, 150);
+            }
+        });
     });
 
 })(jQuery);
+
+// Add CSS for page transitions
+(function() {
+    var style = document.createElement('style');
+    style.textContent = `
+        body {
+            opacity: 1;
+            transition: opacity 0.15s ease-out;
+        }
+        body.page-transitioning {
+            opacity: 0.7;
+        }
+        /* Instantly show page content on load */
+        body.loaded {
+            opacity: 1;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Mark body as loaded when DOM is ready
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.add('loaded');
+    });
+})();

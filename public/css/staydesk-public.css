@@ -1,7 +1,15 @@
 /* StayDesk Public Styles - Sapphire Glassmorphism Theme */
 
-/* Import elegant hotel hospitality fonts */
+/* Import elegant hotel hospitality fonts - with display swap for faster text rendering */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Performance optimizations */
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
 
 :root {
     /* Sapphire Blue Color Palette */
@@ -42,6 +50,18 @@
 
 * {
     box-sizing: border-box;
+}
+
+/* Hardware acceleration for smooth animations */
+.staydesk-card,
+.staydesk-btn,
+.feature-card,
+.stat-card,
+.why-card,
+.pricing-card {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 body {
