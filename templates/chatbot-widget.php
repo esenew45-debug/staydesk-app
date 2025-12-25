@@ -36,20 +36,24 @@ $is_owner = $hotel && is_user_logged_in();
 <!-- AI Chatbot Widget with Settings -->
 <div class="staydesk-chatbot-widget" id="staydesk-chatbot-widget">
     <button class="chatbot-button" id="chatbot-toggle" title="Chat with AI Assistant">
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <!-- Robot head outline -->
-            <rect x="5" y="6" width="14" height="12" rx="2"/>
-            <!-- Antenna -->
-            <line x1="12" y1="6" x2="12" y2="3"/>
-            <circle cx="12" cy="2" r="1"/>
-            <!-- Eyes -->
-            <circle cx="9" cy="11" r="1.5" fill="currentColor"/>
-            <circle cx="15" cy="11" r="1.5" fill="currentColor"/>
-            <!-- Mouth -->
-            <path d="M9 15h6"/>
-            <!-- Ears/Antennas -->
-            <line x1="5" y1="10" x2="3" y2="10"/>
-            <line x1="19" y1="10" x2="21" y2="10"/>
+        <!-- Robot/Chatbot Icon - Filled for better visibility -->
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+            <!-- Robot head -->
+            <path d="M12 2a1 1 0 011 1v1h3a3 3 0 013 3v8a3 3 0 01-3 3H8a3 3 0 01-3-3V7a3 3 0 013-3h3V3a1 1 0 011-1z"/>
+            <!-- Left antenna -->
+            <circle cx="3" cy="11" r="1.5"/>
+            <rect x="4" y="10" width="1" height="2"/>
+            <!-- Right antenna -->
+            <circle cx="21" cy="11" r="1.5"/>
+            <rect x="19" y="10" width="1" height="2"/>
+            <!-- Eyes (cutout effect using dark circles) -->
+            <circle cx="9" cy="11" r="2" fill="#1e3a5f"/>
+            <circle cx="15" cy="11" r="2" fill="#1e3a5f"/>
+            <!-- Eye pupils/highlights -->
+            <circle cx="9" cy="11" r="1" fill="white"/>
+            <circle cx="15" cy="11" r="1" fill="white"/>
+            <!-- Smile -->
+            <path d="M9 14.5c0 0 1.5 1.5 3 1.5s3-1.5 3-1.5" stroke="#1e3a5f" stroke-width="1.5" stroke-linecap="round" fill="none"/>
         </svg>
     </button>
     
