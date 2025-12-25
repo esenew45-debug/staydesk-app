@@ -849,23 +849,29 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
             }
         });
         
-        // Real-time clock with date
+        // Real-time clock with date (WAT - West Africa Time, UTC+1)
         function updateClock() {
+            // Create date in WAT (West Africa Time) timezone
+            var options = { timeZone: 'Africa/Lagos' };
             var now = new Date();
+            
+            // Get WAT time components
+            var watDate = new Date(now.toLocaleString('en-US', options));
+            
             var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
             
-            var dayName = days[now.getDay()];
-            var date = now.getDate();
-            var month = months[now.getMonth()];
-            var year = now.getFullYear();
-            var hours = now.getHours().toString().padStart(2, '0');
-            var minutes = now.getMinutes().toString().padStart(2, '0');
-            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var dayName = days[watDate.getDay()];
+            var date = watDate.getDate();
+            var month = months[watDate.getMonth()];
+            var year = watDate.getFullYear();
+            var hours = watDate.getHours().toString().padStart(2, '0');
+            var minutes = watDate.getMinutes().toString().padStart(2, '0');
+            var seconds = watDate.getSeconds().toString().padStart(2, '0');
             
             var clockElement = document.getElementById('clock');
             if (clockElement) {
-                clockElement.innerHTML = '<span class="clock-date">' + dayName + ', ' + month + ' ' + date + ', ' + year + '</span><span class="clock-time">' + hours + ':' + minutes + ':' + seconds + '</span>';
+                clockElement.innerHTML = '<span class="clock-date">' + dayName + ', ' + month + ' ' + date + ', ' + year + ' (WAT)</span><span class="clock-time">' + hours + ':' + minutes + ':' + seconds + '</span>';
             }
         }
         
