@@ -23,7 +23,7 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=1024, initial-scale=0.5">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/feather-icons"></script>
     <style>
@@ -169,11 +169,11 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
         .sidebar-collapse-btn {
             position: absolute;
             top: 70px;
-            right: -12px;
-            width: 24px;
-            height: 24px;
-            background: var(--sapphire);
-            border: 1px solid var(--glass-border);
+            right: -14px;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--sapphire), var(--sapphire-light));
+            border: 2px solid var(--accent);
             border-radius: 50%;
             cursor: pointer;
             display: flex;
@@ -181,18 +181,26 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
             justify-content: center;
             z-index: 101;
             transition: all 0.3s ease;
+            box-shadow: 0 2px 12px var(--sapphire-glow), 0 0 20px rgba(107, 179, 255, 0.2);
         }
         
         .sidebar-collapse-btn svg {
-            width: 14px;
-            height: 14px;
+            width: 16px;
+            height: 16px;
             color: var(--accent);
             transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 4px var(--accent));
         }
         
         .sidebar-collapse-btn:hover {
-            background: var(--sapphire-light);
-            transform: scale(1.1);
+            background: linear-gradient(135deg, var(--sapphire-light), var(--accent));
+            transform: scale(1.15);
+            box-shadow: 0 4px 20px var(--sapphire-glow), 0 0 30px rgba(107, 179, 255, 0.4);
+        }
+        
+        .sidebar-collapse-btn:hover svg {
+            color: #ffffff;
+            filter: drop-shadow(0 0 6px #ffffff);
         }
         
         .dashboard-sidebar.collapsed .sidebar-collapse-btn svg {
@@ -631,10 +639,10 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
         
         <!-- Sidebar -->
         <aside class="dashboard-sidebar" id="dashboard-sidebar">
-            <!-- Collapse Button with inline SVG arrow -->
+            <!-- Collapse Button with vibrant chevron icon -->
             <button class="sidebar-collapse-btn" id="sidebar-collapse-btn" aria-label="Toggle sidebar">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6"/>
                 </svg>
             </button>
             
