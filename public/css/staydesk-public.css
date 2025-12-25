@@ -1,0 +1,574 @@
+/* StayDesk Public Styles - Sapphire Glassmorphism Theme */
+
+/* Import elegant hotel hospitality fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Sapphire Blue Color Palette */
+    --primary-color: #1e3a5f;
+    --primary-light: #2d5a8a;
+    --primary-glow: rgba(30, 58, 95, 0.4);
+    --secondary-color: #4a90d9;
+    --accent-color: #6bb3ff;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+    
+    /* Text Colors */
+    --text-color: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-light: #cbd5e1;
+    
+    /* Background Colors - Dark Grey */
+    --bg-dark: #0f1419;
+    --bg-darker: #080b0e;
+    --bg-card: rgba(30, 58, 95, 0.15);
+    --bg-card-hover: rgba(30, 58, 95, 0.25);
+    --bg-glass: rgba(15, 20, 25, 0.7);
+    
+    /* Glassmorphism */
+    --glass-bg: rgba(30, 58, 95, 0.1);
+    --glass-border: rgba(107, 179, 255, 0.15);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    
+    /* Borders & Shadows */
+    --border-color: rgba(107, 179, 255, 0.12);
+    --shadow-sapphire: 0 8px 32px rgba(30, 58, 95, 0.3);
+    
+    /* Fonts */
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--text-color);
+    background: var(--bg-dark);
+    font-size: 0.85rem;
+}
+
+/* Custom Sapphire Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-darker);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--primary-color), var(--primary-light));
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--primary-light), var(--secondary-color));
+}
+
+/* Remove underlines from ALL links */
+a {
+    text-decoration: none !important;
+}
+
+a:hover {
+    text-decoration: none !important;
+}
+
+/* Improved Typography with Hotel Fonts */
+p {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: var(--text-light);
+}
+
+/* Glassmorphism Cards */
+.dark-bg, .staydesk-card, .staydesk-modal-content {
+    color: var(--text-color);
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+}
+
+.dark-bg p, .staydesk-card p, .staydesk-modal-content p {
+    color: var(--text-light);
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Scroll Progress Bar - Sapphire */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+    z-index: 10000;
+    transition: width 0.1s ease-out;
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* Sapphire Gradient Animation for Headers */
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Scroll Animation */
+@keyframes scrollReveal {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.scroll-reveal {
+    animation: scrollReveal 0.6s ease-out forwards;
+}
+
+h1, h2, h3 {
+    font-family: var(--font-display);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+h1 {
+    background: linear-gradient(135deg, var(--text-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite, fadeInUp 0.8s ease-out;
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+h2 {
+    background: linear-gradient(135deg, var(--text-color) 0%, var(--secondary-color) 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 5s ease infinite, fadeInUp 0.9s ease-out;
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+h3 {
+    color: var(--secondary-color);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+/* Smooth Animations */
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes iconGlow {
+    0%, 100% { 
+        filter: drop-shadow(0 0 2px var(--secondary-color));
+        transform: scale(1);
+    }
+    50% { 
+        filter: drop-shadow(0 0 8px var(--accent-color));
+        transform: scale(1.1);
+    }
+}
+
+/* Loading Spinner */
+.staydesk-spinner {
+    border: 2px solid rgba(30, 58, 95, 0.2);
+    border-top: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    animation: spin 1s linear infinite;
+    margin: 20px auto;
+}
+
+/* Buttons - Small and Refined with Glassmorphism */
+.staydesk-btn {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none !important;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.3px;
+}
+
+.staydesk-btn svg {
+    width: 14px;
+    height: 14px;
+    transition: all 0.3s ease;
+}
+
+.staydesk-btn:hover svg {
+    animation: iconGlow 1s ease-in-out infinite;
+}
+
+.staydesk-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s, height 0.4s;
+}
+
+.staydesk-btn:hover::before {
+    width: 200px;
+    height: 200px;
+}
+
+.staydesk-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sapphire);
+    text-decoration: none !important;
+}
+
+.staydesk-btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-light) 100%);
+    color: #ffffff;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    box-shadow: 0 2px 12px var(--primary-glow);
+}
+
+.staydesk-btn-primary:hover {
+    box-shadow: 0 4px 20px var(--primary-glow);
+    transform: translateY(-2px);
+}
+
+.staydesk-btn-secondary {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    color: var(--secondary-color);
+    border: 1px solid var(--glass-border);
+}
+
+.staydesk-btn-secondary:hover {
+    background: rgba(30, 58, 95, 0.2);
+    color: var(--accent-color);
+    border-color: var(--secondary-color);
+}
+
+/* Glassmorphism Cards */
+.staydesk-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 24px;
+    border-radius: 12px;
+    box-shadow: var(--glass-shadow);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--glass-border);
+    position: relative;
+}
+
+.staydesk-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--secondary-color), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.staydesk-card:hover::before {
+    opacity: 1;
+}
+
+.staydesk-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(30, 58, 95, 0.4);
+    border-color: rgba(107, 179, 255, 0.25);
+}
+
+/* Forms - Glassmorphism Style */
+.staydesk-form-group {
+    margin-bottom: 16px;
+}
+
+.staydesk-form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-family: var(--font-body);
+    font-weight: 500;
+    color: var(--text-light);
+    letter-spacing: 0.3px;
+    font-size: 0.75rem;
+}
+
+.staydesk-form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    color: var(--text-color);
+}
+
+.staydesk-form-control:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.15);
+    background: rgba(30, 58, 95, 0.15);
+}
+
+.staydesk-form-control::placeholder {
+    color: var(--text-muted);
+}
+
+/* Toast Notifications - Glassmorphism */
+.staydesk-toast {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    min-width: 280px;
+    padding: 14px 18px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    border-radius: 10px;
+    box-shadow: var(--glass-shadow);
+    z-index: 10000;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--glass-border);
+    font-size: 0.8rem;
+}
+
+.staydesk-toast.success {
+    border-left: 3px solid var(--success-color);
+    background: linear-gradient(135deg, var(--glass-bg) 0%, rgba(16, 185, 129, 0.1) 100%);
+}
+
+.staydesk-toast.error {
+    border-left: 3px solid var(--error-color);
+    background: linear-gradient(135deg, var(--glass-bg) 0%, rgba(239, 68, 68, 0.1) 100%);
+}
+
+.staydesk-toast.warning {
+    border-left: 3px solid var(--warning-color);
+    background: linear-gradient(135deg, var(--glass-bg) 0%, rgba(245, 158, 11, 0.1) 100%);
+}
+
+/* Modal - Glassmorphism */
+.staydesk-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(8, 11, 14, 0.9);
+    backdrop-filter: blur(10px);
+    z-index: 9999;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.staydesk-modal-content {
+    position: relative;
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    margin: 10% auto;
+    padding: 32px;
+    max-width: 550px;
+    border-radius: 16px;
+    animation: fadeInUp 0.4s ease-out;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.staydesk-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.staydesk-modal-close:hover {
+    color: var(--error-color);
+    transform: rotate(90deg);
+}
+
+/* Responsive Grid */
+.staydesk-grid {
+    display: grid;
+    gap: 20px;
+}
+
+.staydesk-grid-2 {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.staydesk-grid-3 {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.staydesk-grid-4 {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+/* Utility Classes */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.mb-20 { margin-bottom: 20px; }
+.mb-30 { margin-bottom: 30px; }
+.mt-20 { margin-top: 20px; }
+.mt-30 { margin-top: 30px; }
+
+/* Hover Effects */
+.hover-scale:hover {
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-3px);
+    transition: transform 0.3s ease;
+}
+
+/* Icon Styles */
+.icon-sm {
+    width: 16px;
+    height: 16px;
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+.icon-md {
+    width: 20px;
+    height: 20px;
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+.icon-lg {
+    width: 24px;
+    height: 24px;
+    color: var(--secondary-color);
+    transition: all 0.3s ease;
+}
+
+.icon-animated:hover {
+    animation: iconGlow 1s ease-in-out infinite;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .staydesk-grid-2,
+    .staydesk-grid-3,
+    .staydesk-grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    .staydesk-toast {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+    }
+    
+    .staydesk-btn {
+        padding: 8px 14px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Accessibility */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Focus Styles */
+*:focus {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+button:focus,
+a:focus {
+    outline-offset: 3px;
+}
