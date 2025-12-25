@@ -184,13 +184,13 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
             box-shadow: 0 2px 12px var(--sapphire-glow), 0 0 20px rgba(107, 179, 255, 0.2);
         }
         
-        .sidebar-collapse-btn svg {
-            width: 18px;
-            height: 18px;
-            fill: var(--accent);
+        .sidebar-collapse-btn .collapse-icon {
+            font-size: 18px;
+            font-weight: bold;
             color: var(--accent);
-            transition: transform 0.3s ease, fill 0.3s ease;
-            filter: drop-shadow(0 0 4px var(--accent));
+            line-height: 1;
+            transition: transform 0.3s ease, color 0.3s ease;
+            text-shadow: 0 0 8px var(--accent);
         }
         
         .sidebar-collapse-btn:hover {
@@ -199,13 +199,12 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
             box-shadow: 0 4px 20px var(--sapphire-glow), 0 0 30px rgba(107, 179, 255, 0.4);
         }
         
-        .sidebar-collapse-btn:hover svg {
-            fill: #ffffff;
+        .sidebar-collapse-btn:hover .collapse-icon {
             color: #ffffff;
-            filter: drop-shadow(0 0 6px #ffffff);
+            text-shadow: 0 0 10px #ffffff;
         }
         
-        .dashboard-sidebar.collapsed .sidebar-collapse-btn svg {
+        .dashboard-sidebar.collapsed .sidebar-collapse-btn .collapse-icon {
             transform: rotate(180deg);
         }
         
@@ -323,12 +322,26 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
         
         .real-time-clock {
             font-family: var(--font-display);
-            font-size: 1.2rem;
-            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+        
+        .real-time-clock .clock-date {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+        
+        .real-time-clock .clock-time {
+            font-size: 1.3rem;
+            font-weight: 700;
             background: linear-gradient(135deg, var(--accent), var(--accent-light));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            letter-spacing: 1px;
         }
         
         .btn-logout {
@@ -641,13 +654,9 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
         
         <!-- Sidebar -->
         <aside class="dashboard-sidebar" id="dashboard-sidebar">
-            <!-- Collapse Button with double chevron icon -->
+            <!-- Collapse Button with Unicode arrow icon -->
             <button class="sidebar-collapse-btn" id="sidebar-collapse-btn" aria-label="Toggle sidebar">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                    <!-- Double chevron left icon -->
-                    <path d="M18.41 7.41L17 6l-6 6 6 6 1.41-1.41L13.83 12l4.58-4.59z"/>
-                    <path d="M12.41 7.41L11 6l-6 6 6 6 1.41-1.41L7.83 12l4.58-4.59z"/>
-                </svg>
+                <span class="collapse-icon">«</span>
             </button>
             
             <div class="sidebar-logo">
@@ -840,13 +849,24 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
             }
         });
         
-        // Real-time clock
+        // Real-time clock with date
         function updateClock() {
             var now = new Date();
+            var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            
+            var dayName = days[now.getDay()];
+            var date = now.getDate();
+            var month = months[now.getMonth()];
+            var year = now.getFullYear();
             var hours = now.getHours().toString().padStart(2, '0');
             var minutes = now.getMinutes().toString().padStart(2, '0');
             var seconds = now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('clock').textContent = hours + ':' + minutes + ':' + seconds;
+            
+            var clockElement = document.getElementById('clock');
+            if (clockElement) {
+                clockElement.innerHTML = '<span class="clock-date">' + dayName + ', ' + month + ' ' + date + ', ' + year + '</span><span class="clock-time">' + hours + ':' + minutes + ':' + seconds + '</span>';
+            }
         }
         
         setInterval(updateClock, 1000);

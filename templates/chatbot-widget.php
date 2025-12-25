@@ -36,25 +36,8 @@ $is_owner = $hotel && is_user_logged_in();
 <!-- AI Chatbot Widget with Settings -->
 <div class="staydesk-chatbot-widget" id="staydesk-chatbot-widget">
     <button class="chatbot-button" id="chatbot-toggle" title="Chat with AI Assistant">
-        <!-- Robot/Chatbot Icon - Filled for better visibility -->
-        <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
-            <!-- Robot head -->
-            <path d="M12 2a1 1 0 011 1v1h3a3 3 0 013 3v8a3 3 0 01-3 3H8a3 3 0 01-3-3V7a3 3 0 013-3h3V3a1 1 0 011-1z"/>
-            <!-- Left antenna -->
-            <circle cx="3" cy="11" r="1.5"/>
-            <rect x="4" y="10" width="1" height="2"/>
-            <!-- Right antenna -->
-            <circle cx="21" cy="11" r="1.5"/>
-            <rect x="19" y="10" width="1" height="2"/>
-            <!-- Eyes (cutout effect using dark circles) -->
-            <circle cx="9" cy="11" r="2" fill="#1e3a5f"/>
-            <circle cx="15" cy="11" r="2" fill="#1e3a5f"/>
-            <!-- Eye pupils/highlights -->
-            <circle cx="9" cy="11" r="1" fill="white"/>
-            <circle cx="15" cy="11" r="1" fill="white"/>
-            <!-- Smile -->
-            <path d="M9 14.5c0 0 1.5 1.5 3 1.5s3-1.5 3-1.5" stroke="#1e3a5f" stroke-width="1.5" stroke-linecap="round" fill="none"/>
-        </svg>
+        <!-- Robot emoji icon for better visibility -->
+        <span class="chatbot-icon">🤖</span>
     </button>
     
     <div class="chatbot-window" id="chatbot-window">
@@ -231,6 +214,13 @@ $is_owner = $hotel && is_user_logged_in();
         animation: sapphireGlow 3s ease infinite;
         position: relative;
         overflow: hidden;
+    }
+    
+    .chatbot-button .chatbot-icon {
+        font-size: 28px;
+        position: relative;
+        z-index: 2;
+        filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
     }
     
     .chatbot-button::before {
