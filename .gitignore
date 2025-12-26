@@ -1,0 +1,22 @@
+# Zip files
+*.zip
+
+# Screenshots
+Screenshot*.png
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node modules (if any)
+node_modules/
+
+# Build files
+dist/
+build/
