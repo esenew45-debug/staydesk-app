@@ -738,6 +738,9 @@ $bookings = array_map(function($booking) {
                 },
                 success: function(response) {
                     if (response.success) {
+                        // Trigger dashboard update via localStorage for instant sync
+                        localStorage.setItem('staydesk_data_updated', Date.now());
+                        
                         // Update the UI in real-time
                         var $statusBadge = $row.find('.status-badge').first();
                         $statusBadge.removeClass('status-pending status-confirmed status-completed status-cancelled')
@@ -878,6 +881,9 @@ $bookings = array_map(function($booking) {
                         closeAddModal();
                         showToast('✅ Booking created successfully!', 'success');
                         
+                        // Trigger dashboard update via localStorage for instant sync
+                        localStorage.setItem('staydesk_data_updated', Date.now());
+                        
                         // Add new booking row to table in real-time
                         if (response.data && response.data.booking) {
                             var booking = response.data.booking;
@@ -953,6 +959,9 @@ $bookings = array_map(function($booking) {
                 },
                 success: function(response) {
                     if (response.success) {
+                        // Trigger dashboard update via localStorage for instant sync
+                        localStorage.setItem('staydesk_data_updated', Date.now());
+                        
                         // Remove row with animation
                         $row.css({ 
                             transform: 'translateX(-100%)', 

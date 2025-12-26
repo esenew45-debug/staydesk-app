@@ -937,7 +937,7 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
                 });
             });
             
-            // Real-time dashboard stats update (every 3 seconds)
+            // Real-time dashboard stats update (every 1 second for instant updates)
             function updateDashboardStats() {
                 $.ajax({
                     url: staydesk_ajax.ajax_url,
@@ -985,12 +985,19 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
                 });
             }
             
-            // Update stats every 3 seconds for real-time updates
-            setInterval(updateDashboardStats, 3000);
+            // Update stats every 1 second for instant real-time updates
+            setInterval(updateDashboardStats, 1000);
             
             // Also update immediately when window gains focus
             $(window).on('focus', function() {
                 updateDashboardStats();
+            });
+            
+            // Listen for localStorage events from other tabs (rooms/bookings pages)
+            $(window).on('storage', function(e) {
+                if (e.originalEvent.key === 'staydesk_data_updated') {
+                    updateDashboardStats();
+                }
             });
         });
     </script>

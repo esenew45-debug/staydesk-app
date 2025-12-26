@@ -594,6 +594,8 @@ $room_types = $wpdb->get_results($wpdb->prepare(
                     success: function(response) {
                         if (response.success) {
                             showAlert('Room added successfully!', 'success');
+                            // Trigger dashboard update via localStorage
+                            localStorage.setItem('staydesk_data_updated', Date.now());
                             setTimeout(() => location.reload(), 2000);
                         } else {
                             showAlert(response.data.message || 'Error adding room', 'error');
@@ -621,6 +623,8 @@ $room_types = $wpdb->get_results($wpdb->prepare(
                 success: function(response) {
                     if (response.success) {
                         showAlert('Room status updated!', 'success');
+                        // Trigger dashboard update via localStorage
+                        localStorage.setItem('staydesk_data_updated', Date.now());
                         setTimeout(() => location.reload(), 1500);
                     } else {
                         showAlert('Error updating status', 'error');
@@ -643,6 +647,8 @@ $room_types = $wpdb->get_results($wpdb->prepare(
                 success: function(response) {
                     if (response.success) {
                         showAlert('Room deleted successfully!', 'success');
+                        // Trigger dashboard update via localStorage
+                        localStorage.setItem('staydesk_data_updated', Date.now());
                         setTimeout(() => location.reload(), 1500);
                     } else {
                         showAlert('Error deleting room', 'error');
