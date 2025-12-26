@@ -18,6 +18,45 @@ class Staydesk_Dashboard {
         
         // AJAX handlers
         add_action('wp_ajax_staydesk_update_profile', array($this, 'update_profile'));
+        add_action('wp_ajax_staydesk_get_dashboard_stats', array($this, 'get_dashboard_stats_ajax'));
+    }
+    
+    /**
+     * AJAX handler for getting real-time dashboard stats.
+     */
+    public function get_dashboard_stats_ajax() {
+        check_ajax_referer('staydesk_nonce', 'nonce');
+
+        if (!is_user_logged_in()) {
+            wp_send_json_error(array('message' => 'Access denied.'));
+        }
+
+        global $wpdb;
+        $user_id = get_current_user_id();
+        $table_hotels = $wpdb->prefix . 'staydesk_hotels';
+        $hotel = $wpdb->get_row($wpdb->prepare(
+            "SELECT * FROM $table_hotels WHERE user_id = %d",
+            $user_id
+        ));
+
+        if (!$hotel) {
+            wp_send_json_error(array('message' => 'Hotel not found.'));
+        }
+
+        // Force fresh data - clear object cache
+        wp_cache_flush();
+        
+        $data = self::get_dashboard_data($hotel->id);
+        
+        wp_send_json_success(array(
+            'total_bookings' => number_format($data['total_bookings']),
+            'pending_bookings' => number_format($data['pending_bookings']),
+            'total_revenue' => '₦' . number_format($data['total_revenue'], 2),
+            'available_rooms' => $data['available_rooms'],
+            'total_rooms' => $data['total_rooms'],
+            'rooms_display' => $data['available_rooms'] . '/' . $data['total_rooms'],
+            'enquiries_count' => $data['enquiries_count']
+        ));
     }
 
     /**

@@ -754,7 +754,7 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
                     <div class="stat-icon">
                         <svg data-feather="calendar"></svg>
                     </div>
-                    <div class="stat-value"><?php echo number_format($dashboard_data['total_bookings']); ?></div>
+                    <div class="stat-value" id="stat-total-bookings"><?php echo number_format($dashboard_data['total_bookings']); ?></div>
                     <div class="stat-label">Total Bookings</div>
                 </div>
                 
@@ -762,7 +762,7 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
                     <div class="stat-icon">
                         <svg data-feather="clock"></svg>
                     </div>
-                    <div class="stat-value"><?php echo number_format($dashboard_data['pending_bookings']); ?></div>
+                    <div class="stat-value" id="stat-pending-bookings"><?php echo number_format($dashboard_data['pending_bookings']); ?></div>
                     <div class="stat-label">Pending Bookings</div>
                 </div>
                 
@@ -770,7 +770,7 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
                     <div class="stat-icon">
                         <svg data-feather="trending-up"></svg>
                     </div>
-                    <div class="stat-value">₦<?php echo number_format($dashboard_data['total_revenue'], 2); ?></div>
+                    <div class="stat-value" id="stat-total-revenue">₦<?php echo number_format($dashboard_data['total_revenue'], 2); ?></div>
                     <div class="stat-label">Total Revenue</div>
                 </div>
                 
@@ -778,7 +778,7 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
                     <div class="stat-icon">
                         <svg data-feather="home"></svg>
                     </div>
-                    <div class="stat-value"><?php echo $dashboard_data['available_rooms']; ?>/<?php echo $dashboard_data['total_rooms']; ?></div>
+                    <div class="stat-value" id="stat-rooms"><?php echo $dashboard_data['available_rooms']; ?>/<?php echo $dashboard_data['total_rooms']; ?></div>
                     <div class="stat-label">Available Rooms</div>
                 </div>
             </div>
@@ -935,6 +935,62 @@ $dashboard_data = Staydesk_Dashboard::get_dashboard_data($hotel->id);
                         }
                     }
                 });
+            });
+            
+            // Real-time dashboard stats update (every 3 seconds)
+            function updateDashboardStats() {
+                $.ajax({
+                    url: staydesk_ajax.ajax_url,
+                    type: 'POST',
+                    data: {
+                        action: 'staydesk_get_dashboard_stats',
+                        nonce: staydesk_ajax.nonce
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            var data = response.data;
+                            
+                            // Animate stat updates
+                            var totalBookings = $('#stat-total-bookings');
+                            var pendingBookings = $('#stat-pending-bookings');
+                            var totalRevenue = $('#stat-total-revenue');
+                            var rooms = $('#stat-rooms');
+                            
+                            // Update with animation if values changed
+                            if (totalBookings.text() !== data.total_bookings) {
+                                totalBookings.fadeOut(100, function() {
+                                    $(this).text(data.total_bookings).fadeIn(100);
+                                });
+                            }
+                            
+                            if (pendingBookings.text() !== data.pending_bookings) {
+                                pendingBookings.fadeOut(100, function() {
+                                    $(this).text(data.pending_bookings).fadeIn(100);
+                                });
+                            }
+                            
+                            if (totalRevenue.text() !== data.total_revenue) {
+                                totalRevenue.fadeOut(100, function() {
+                                    $(this).text(data.total_revenue).fadeIn(100);
+                                });
+                            }
+                            
+                            if (rooms.text() !== data.rooms_display) {
+                                rooms.fadeOut(100, function() {
+                                    $(this).text(data.rooms_display).fadeIn(100);
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Update stats every 3 seconds for real-time updates
+            setInterval(updateDashboardStats, 3000);
+            
+            // Also update immediately when window gains focus
+            $(window).on('focus', function() {
+                updateDashboardStats();
             });
         });
     </script>
